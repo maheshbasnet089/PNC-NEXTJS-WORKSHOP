@@ -1,8 +1,20 @@
-import Image from "next/image";
+
 import Card from "./components/Card";
+import axios from "axios";
+// import { useEffect } from "react";
 
 
 export default function Home() {
+  // const fetchRecipe = async ()=>{
+  //   const response = await axios.get("http://localhost:3000/api/recipe/")
+  //   console.log(response)
+  // }
+
+  // useEffect(()=>{
+  //   fetchRecipe()
+  // },[])
+ 
+
   return (
    <div className="flex flex-wrap">
     <Card />
