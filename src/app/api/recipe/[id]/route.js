@@ -4,7 +4,7 @@ import { eq } from "drizzle-orm"
 
 
 export async function GET(request,urlBataAakoData){
-    const id = urlBataAakoData.params.id * 1
+    const id = urlBataAakoData.params.id * 1 // "2" * 1 = 2
     try {
         let recipe = await db.select().from(recipes).where(eq(recipes.id,id)) // always returns in array
         if(recipe.length == 0){
@@ -21,8 +21,8 @@ export async function GET(request,urlBataAakoData){
             message : error.message
         },{status:500})
     }
-
 }
+
 export async function DELETE(request,urlBataAakoData){
     const id = urlBataAakoData.params.id * 1
     try {

@@ -1,6 +1,22 @@
 import Link from "next/link"
+import DeleteButton from "./component/Delete";
 
-function SinglePage(){
+async function SinglePage({params}){
+    let recipe;
+    let recipeId;
+  try {
+    recipeId = params.id 
+    const response = await fetch("http://localhost:3000/api/recipe/" + recipeId)
+    if(!response.ok){
+        throw new Error("Failed to fetch the recipe")
+    }
+    const data = await response.json()
+    recipe = data.recipe[0]
+
+  } catch (error) {
+    console.log(error)
+  }
+
     return (
 <div className="bg-gray-100 dark:bg-gray-800 py-8">
     <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -15,28 +31,21 @@ function SinglePage(){
                        <button className="w-full bg-gray-900 dark:bg-gray-600 text-white py-2 px-4 rounded-full font-bold hover:bg-gray-800 dark:hover:bg-gray-700">Edit</button>
                        </Link>
                     </div>
-                    <div className="w-1/2 px-2">
-                        <button className="w-full bg-red-200 dark:bg-red-700 text-gray-800 dark:text-white py-2 px-4 rounded-full font-bold hover:bg-gray-300 dark:hover:bg-gray-600">Delete</button>
-                    </div>
+            <DeleteButton recipeId={recipeId} />
                 </div>
             </div>
             <div className="md:flex-1 px-4">
-                <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-2">Product Name</h2>
+                <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-2">{recipe?.name}</h2>
                 <p className="text-gray-600 dark:text-gray-300 text-sm mb-4">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sed
-                    ante justo. Integer euismod libero id mauris malesuada tincidunt.
+                    {recipe?.subname}
                 </p>
         
            
 
                 <div>
-                    <span className="font-bold text-gray-700 dark:text-gray-300">Product Description:</span>
+                    <span className="font-bold text-gray-700 dark:text-gray-300">Recipe Description:</span>
                     <p className="text-gray-600 dark:text-gray-300 text-sm mt-2">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
-                        sed ante justo. Integer euismod libero id mauris malesuada tincidunt. Vivamus commodo nulla ut
-                        lorem rhoncus aliquet. Duis dapibus augue vel ipsum pretium, et venenatis sem blandit. Quisque
-                        ut erat vitae nisi ultrices placerat non eget velit. Integer ornare mi sed ipsum lacinia, non
-                        sagittis mauris blandit. Morbi fermentum libero vel nisl suscipit, nec tincidunt mi consectetur.
+                      {recipe?.description}
                     </p>
                 </div>
             </div>

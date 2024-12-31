@@ -1,31 +1,39 @@
 
 import Card from "./components/Card";
-import axios from "axios";
-// import { useEffect } from "react";
 
 
-export default function Home() {
-  // const fetchRecipe = async ()=>{
-  //   const response = await axios.get("http://localhost:3000/api/recipe/")
-  //   console.log(response)
-  // }
+const fetchRecipes = async ()=>{
+try {
+  const response = await fetch("http://localhost:3000/api/recipe",{
+    cache : "no-store"
+  })
+  if(!response.ok){
+    throw new Error("Failed to fetch recipes")
+  }
+  return response.json()
+} catch (error) {
+  console.log(error)
+  return []
+}
+}
 
-  // useEffect(()=>{
-  //   fetchRecipe()
-  // },[])
- 
-
+export default  async function Home() {
+  const {recipes} = await fetchRecipes()
+  console.log(recipes)
   return (
    <div className="flex flex-wrap">
-    <Card />
-    <Card />
-    <Card />
-    <Card />
-    <Card />
+    {
+      recipes.map((recipe)=>{
+        return (
+          <Card key={recipe.id} recipe={recipe} />
+        )
+      })
+    }
     <Card />
    </div>
   );
 }
+
 
 
 // postgresql://postgres.jjuclcgascwyegoqahtr:[YOUR-PASSWORD]@aws-0-ap-south-1.pooler.supabase.com:6543/postgres
